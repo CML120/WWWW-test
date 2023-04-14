@@ -41,4 +41,30 @@ fetch('https://api.spotify.com/v1/artists/4Z8W4fKeB5YxbusRsdQVPb', {
     console.log(data);
   });
  
-  
+
+
+
+        // Function to show suggested genre names on searched box when at least three characteres are entered
+        function autoGenres() {
+          var availableGenres = ["Rock", "Pop Music", "Jazz", "Dubstep"];
+          $('#').autocomplete({
+              source: availableGenres,
+              minLength: 3 
+          })
+      }
+      
+      // Function to call Ticketmaster API with genre as query parameter
+      function getEventByGenres() {
+          // Variable to house Ticketmaster API key
+          const apiKey = 'qxKGGKTQOTy8d78ZxhPZOnTRwN2N2pFH'
+          // Variable to house Ticketmaster API URL
+          const eventsUrl = 'https://app.ticketmaster.com/discovery/v2/classifications/genres=' + genre + '&apikey=' + apiKey
+          fetch(eventsUrl)
+        .then(function (response) {
+          return response.json();
+        })
+          .then(function (genreData) {
+            console.log(genreData);
+          });
+              
+      }
