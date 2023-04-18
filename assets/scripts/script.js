@@ -1,13 +1,7 @@
 var searchFormEl = document.querySelector('#search-form');
 var searchBtnEl = document.querySelector('#searchBtn')
 var searchInput = ''
-var resultCards = document.getElementById('result-cards');
 
-
-function init() {
-  resultCards.style.display = 'none';
-}
-function init()
 
 function searchApiTM(){
     var tmQueryUrl ='https://app.ticketmaster.com/discovery/v2/events?apikey=aSqzhWcc1ZxQnMoClqxGxcTRL8GrgFyA'
