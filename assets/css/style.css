@@ -1,11 +1,59 @@
+img {
+  height: 300px;
+  width: 300px;
+}
 
+.ui-autocomplete {
+  color: purple;
+  border-color: black;
+  font-weight: bold;
+  border-style: solid;
+  width: 150px;
+  background-color: white;
+}
 
+.list-items {
+  display: inline-flex;
+}
 
-html { 
-    background: url(../images/audience-1853662__480.jpg) no-repeat center center fixed; 
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+li + li {
+  margin-left: 15px;
+}
+
+.ui-helper-hidden-accessible {
+  display: none !important;
+}
+
+#cities {
+  max-width: 15%;
+}
+
+li {
+  font-style: italic;
+  cursor: pointer;
+}
+
+#advice {
+  font-family: "Arima Madurai", cursive;
+}
+
+#attractions {
+  font-family: "Source Serif 4", serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#wrapper {
+  flex: 1;
+}
+
+/* Changes searched cities list to block if screen is smaller than 535px */
+@media (max-width: 535px) {
+  .list-items {
+    display: block;
   }
-
+}

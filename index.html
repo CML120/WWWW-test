@@ -12,10 +12,67 @@
   <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
   <title>Event Finder</title>
 </head>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./assets/style.css">
+  <!-- Title of page-->
+  <title>Event Finder</title>
+  <!-- Link to Bulma -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+      <h1
+        class="title is-size-1 has-text-info-dark has-text-centered is-family-sans-serif has-background-primary-light py-5">
+        Event Finder</h1>
+    </header>
+    <div class="column has-text-centered my-5 is-size-5">
+      <h3 class="my-5">Search your city here</h3>
+      <div id="searchCity" class="my-5">
+        <label for="cities"></label>
+        <input type="text" id="cities" class="ui-autocomplete-input input is-default" placeholder="i.e. Saint Paul"
+          autocomplete="off">
+        <button id="searchBtn" class="button is-default is-link">Search</button>
+        <div class="is-flex is-justify-content-space-around mt-5">
+          <!-- Searched cities will be appended here via JS-->
+          <ul id="searchedCities" class="list-items"></ul>
+        </div>
+      </div>
+    </div>
+    <!-- Events info provided by Ticketmaster API will be appended here via JS, one in each column -->
+    <div id="attractions" class="columns has-text-centered">
+      <div class="column card m-1 mt-3 has-text-black  ml-4" id="attraction-0"></div>
+      <div class="column m-1 card mt-3 has-text-black " id="attraction-1"></div>
+      <div class="column m-1 card mt-3 has-text-black " id="attraction-2"></div>
+    </div>
+  </div>
+
+  <!-- Link to Day.js -->
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
+    integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous">
+    </script>
+  <!-- Link to jQuery v3.2.1 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- Link to jQuery v3.6.0 -->
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <!-- Link to jQuery UI v1.13.2 -->
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <!-- Link to JavaScript file -->
+  <script src="./assets/script.js"></script>
+</body>
+
+</html>
 
 <body>
 
-  <header  class="title is-size-1 has-text-centered is-family-sans-serif has-text-white">
+  <header class="title is-size-1 has-text-centered is-family-sans-serif has-text-white">
     <h1>Hometown Sound</h1>
   </header>
 
@@ -49,8 +106,8 @@
           <li id="location1">Location</li>
           <li id="link1">Link</li>
         </ul>
-      </div> 
-       <div class="card" id="second-card">
+      </div>
+      <div class="card" id="second-card">
         <ul>
           <li id="event2">Event</li>
           <li id="artist2">Artist</li>

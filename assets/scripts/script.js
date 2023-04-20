@@ -1,178 +1,153 @@
-var searchFormEl = document.querySelector('#search-form');
-var searchBtnEl = document.querySelector('#searchBtn')
-var searchInput = ''
-var client_id = 'b8a40684aaf24623a0845d2de7d55422';
-var client_secret = '059928fa94f647a3ad310fbb22d30473';
-// var resultCards = document.getElementById('result-cards');
-// var cardDisplayEl = document.querySelector('#card-display');
-var artistName = "The Weeknd";  // this will store the artist name from the TicketMaster search query then pass it to the Spotify query
+// Wrapping main functions to only work after document is ready
+$(document).ready(function () {
+  // Hiding div with attractions card because there are no events to show
+  $(attractions).hide();
+  autoCities();
+  getSearchedCities();
+  // Function to when the search button is clicked
+  $("#searchBtn").click(function (e) {
+    e.preventDefault();
+    deleteAppends();
+    // If no value is entered on search box: hides attractions div and shows previous searched cities if any
+    if ($("#cities").val() == "") {
+      $(attractions).hide();
+      getSearchedCities();
+    }
+    // If a value is entered on search box: the value is house in a variable that is passed into function that gets events info for city searched and shows previous searched cities if any
+    else {
+      var city = $("#cities").val();
+      getEventByCity(city);
+      getSearchedCities();
+    }
+  });
+  // Function to when any li (previous searched cities) is clicked
+  $(document).on("click", "li", function (e) {
+    e.preventDefault();
+    deleteAppends();
+    // Saving clicked city into variable to be passed into function that gets events info for city searched and shows previous searched cities if any
+    var city = $(this).text();
+    getEventByCity(city);
+    getSearchedCities();
+  });
+});
 
-// $('#searchBtn').on("click",function(event) {
-//   event.preventDefault();
-
-// // cannot remove is-hidden class   currently remove all class attributes, then re-add back using set attribute
-// // cardDisplayEl.removeAttribute("class")
-// // cardDisplayEl.setAttribute("class", "columns is-size-5 is-justify-content-space-evenly");
-
-
-//       // working fetch statements for obtaining token/ making first query
-//       fetch('https://accounts.spotify.com/api/token', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/x-www-form-urlencoded'
-//         },
-//         body: 'grant_type=client_credentials&client_id=' + client_id + '&client_secret=' + client_secret
-//       }).then(function (response) {
-//         return response.json();
-//       })
-//         .then(function (data) {
-
-//           //reminder to remove console logs
-//           console.log(data);
-//           console.log(data.access_token)
-//           var spotifyBearerToken = data.access_token;
-//           console.log(spotifyBearerToken);
-          
-      
-//           //need to nest this fetch statement so that the bearer token is valid/recognized due to scoping
-//           // calling the api query outside of this fetch will create an unrecognized bearer token
-//           fetch('https://api.spotify.com/v1/search?query=' + artistName + '&type=artist&market=us&limit=10&offset=0', {
-//             headers: { 'Authorization': `Bearer ${spotifyBearerToken}` }
-//           }).then(function (response) {
-//             return response.json();
-//           })
-//             .then(function (data) {
-//               //reminder to remove console logs
-//               console.log(data);
-//               console.log(data.artists.items[0].external_urls);
-//               var hrefLink = data.artists.items[0].external_urls;
-             
-//               console.log(hrefLink.spotify);
-
-//               //functional example code for displaying results cards
-//               //using template literal to add event cards
-//               for(i = 0; i <= 3; i++){
-
-//                 var cardDisplay =`
-//               <div class="card ">
-//                 <ul>
-//                     <li id="event1">`+ "Insert Event Here" + `</li>
-//                     <li id="artist1">`+ "Insert Artist name here" + `</li>
-//                     <li id="date1">`+ "Insert Date here" + `</li>
-//                     <li id="time1">`+ "Insert Time here" + `</li>
-//                     <li id="location1">`+ "Insert location here" + `</li>
-//                     <li id="link1"> <a href=" `+ hrefLink.spotify + `" target="_blank">` + artistName + " Spotify Playlist" + ` </a> </li>
-//                 </ul>
-//               </div>
-//               `;
-
-//               $("#card-display").append(cardDisplay);
-
-//               }
-              
-//             });
-      
-//         });
-
-
-// })
-
-
-
-
-
-function searchApiTM(){
-    var tmQueryUrl ='https://app.ticketmaster.com/discovery/v2/events?apikey=aSqzhWcc1ZxQnMoClqxGxcTRL8GrgFyA'
-
-    fetch(tmQueryUrl)
-    .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        console.log(data);
-      });
-
+// Function to show suggested city names on searched box when at least three characteres are entered
+function autoCities() {
+  var availableCities = ["saint paul", "minneapolis"];
+  $("#cities").autocomplete({
+    source: availableCities,
+    minLength: 3,
+  });
 }
 
-
-fetch('https://accounts.spotify.com/api/token', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded'
-  },
-  body: 'grant_type=client_credentials&client_id=b8a40684aaf24623a0845d2de7d55422&client_secret=059928fa94f647a3ad310fbb22d30473'
-}).then(function (response) {
-  return response.json();
-})
-  .then(function (data) {
-    console.log(data);
-  });
-fetch('https://api.spotify.com/v1/artists/4Z8W4fKeB5YxbusRsdQVPb', {
-  headers: {
-    'Authorization': 'Bearer  BQDOf9b-w-3xsZeKnJDaicmrEiTVuR5GjL50LiejefW8YIDf0xu5KW1EbKL17sgIqzcj9Skt-zTjg52avGUx6KNy_Z2-lYtQld89yfuRoyKHPhxtp9PX'
-  }
-}).then(function (response) {
-  return response.json();
-})
-  .then(function (data) {
-    console.log(data);
-  });
- 
-
-
-
-        // Function to show suggested genre names on searched box when at least three characteres are entered
-        function autoGenres() {
-          var availableGenres = ["Rock", "Pop Music", "Jazz", "Dubstep"];
-          $('#').autocomplete({
-              source: availableGenres,
-              minLength: 3 
-          })
-      }
-      
-      // Function to call Ticketmaster API with genre as query parameter
-      function getEventByGenres() {
-          // Variable to house Ticketmaster API key
-          const apiKey = 'qxKGGKTQOTy8d78ZxhPZOnTRwN2N2pFH'
-          // Variable to house Ticketmaster API URL
-          const eventsUrl = 'https://app.ticketmaster.com/discovery/v2/classifications/genres=' + genre + '&apikey=' + apiKey
-          fetch(eventsUrl)
-        .then(function (response) {
-          return response.json();
-        })
-          .then(function (genreData) {
-            console.log(genreData);
-          });
-              
-      }
-
-
-      // working fetch statements for obtaining token/ making first query
-  fetch('https://accounts.spotify.com/api/token', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    body: 'grant_type=client_credentials&client_id=' + client_id + '&client_secret=' + client_secret
-  }).then(function (response) {
-    return response.json();
-  })
+// Function to call Ticketmaster API with city as query parameter
+function getEventByCity(city) {
+  // Variable to house Ticketmaster API key
+  var apiKey = "aSqzhWcc1ZxQnMoClqxGxcTRL8GrgFyA";
+  // Variable to house Ticketmaster API URL
+  var eventsUrl =
+    "https://app.ticketmaster.com/discovery/v2/events?city=" +
+    city +
+    "&apikey=" +
+    apiKey;
+  fetch(eventsUrl)
+    .then(function (response) {
+      return response.json();
+    })
     .then(function (data) {
-      console.log(data);
-      console.log(data.access_token)
-      var spotifyBearerToken = data.access_token;
-      console.log(spotifyBearerToken);
-      
-  
-      //need to nest this fetch statement so that the bearer token is valid/recognized due to scoping
-      // calling the api query outside of this fetch will create an unrecognized bearer token
-      fetch('https://api.spotify.com/v1/artists/4Z8W4fKeB5YxbusRsdQVPb', {
-        headers: { 'Authorization': `Bearer ${spotifyBearerToken}` }
-      }).then(function (response) {
-        return response.json();
-      })
-        .then(function (data) {
-          console.log(data);
-        });
-  
+      // If the city entered on search box has ticketmaster events available, events' info will be added to page
+      if (data.page.totalElements != "0") {
+        $(attractions).show();
+        for (let i = 0; i < 3; i++) {
+          appendEvents(i, i);
+          // Saving name of the city in local storage according to name available in API (corrected name)
+          localStorage.setItem(
+            "CityCorrectName",
+            JSON.stringify(
+              data._embedded.events[0]._embedded.venues[0].city.name
+            )
+          );
+          saveSearchedCities();
+        }
+      }
+      // If the city entered on search box does not have ticketmaster events available, attractions div will keep hidden
+      else {
+        $(attractions).hide();
+      }
+      // Function to append on page title, image, date, time, location and link to buy tickets for the event. Class "is-size" is adding size font; class "has-text-warning" is adding font color with Bulma
+      function appendEvents(num, index) {
+        $("#attraction-" + num).append(
+          '<h2 class= "is-size-4 has-text-warning " >' +
+            data._embedded.events[index].name +
+            "</h2>"
+        );
+        $("#attraction-" + num).append(
+          "<img src='" +
+            data._embedded.events[index].images[0].url +
+            "' ></img>"
+        );
+        $("#attraction-" + num).append(
+          '<p class= "is-size-5 ">' +
+            "When? " +
+            dayjs(data._embedded.events[index].dates.start.dateTime).format(
+              "MMM-DD-YYYY"
+            ) +
+            "</p>"
+        );
+        $("#attraction-" + num).append(
+          '<p class= "is-size-5">' +
+            "What time? " +
+            dayjs(data._embedded.events[index].dates.start.dateTime).format(
+              "h:mm A"
+            ) +
+            "</p>"
+        );
+        $("#attraction-" + num).append(
+          '<p class= "is-size-5">' +
+            "Where? " +
+            data._embedded.events[index]._embedded.venues[0].name +
+            "</p>"
+        );
+        $("#attraction-" + num).append(
+          '<a target="_blank" href="' +
+            data._embedded.events[index].url +
+            '" class= "has-text-weight-bold has-text-danger-dark is-size-4">Spotify</a>'
+        );
+      }
     });
+}
+
+// Function to save in local storage searched cities
+function saveSearchedCities() {
+  // Get correct city name from local storage to add to new array in variable cities
+  var CityCorrectName = JSON.parse(localStorage.getItem("CityCorrectName"));
+  if (CityCorrectName) {
+    var cities = JSON.parse(localStorage.getItem("cities")) || [];
+    // Limits number of saved cities in local storage to 4 by removing the last city if more are added
+    if (cities.length >= 5) {
+      cities.pop();
+    }
+    // Only saves the city name in local storage once (if it is removed from the array per if statemnt above, it can be added to array again); adds it to the beggining of the array
+    if (!cities.includes(CityCorrectName)) {
+      cities.unshift(CityCorrectName);
+    }
+    localStorage.setItem("cities", JSON.stringify(cities));
+  }
+}
+
+// Function to append searched cities to searchedCities div
+function getSearchedCities() {
+  var cities = JSON.parse(localStorage.getItem("cities")) || [];
+  for (let i = 0; i < cities.length; i++) {
+    $("#searchedCities").append("<li>" + cities[i] + "</li>");
+  }
+}
+
+// Delete created elements to ensure there are no duplicate appends when elements need to be appended again
+function deleteAppends() {
+  for (let num = 0; num < 3; num++) {
+    $("#attraction-" + num).empty();
+  }
+  $("#searchedCities").empty();
+  $("#advice").empty();
+}
