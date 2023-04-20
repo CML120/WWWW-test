@@ -1,5 +1,6 @@
 html {
-  background: url(../images/audience-1853662__480.jpg) no-repeat center center fixed;
+  background: url(../images/audience-1853662__480.jpg) no-repeat center center
+    fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -24,7 +25,7 @@ img {
   display: inline-flex;
 }
 
-li+li {
+li + li {
   margin-left: 15px;
 }
 
@@ -66,7 +67,7 @@ body {
   }
 }
 
-#city-search,
+#keyword-search,
 #search-results,
 #info {
   font-weight: bold;
@@ -77,10 +78,13 @@ body {
   background-clip: text;
 }
 
-
 header {
-  background: rgb(142,102,30);
-background: radial-gradient(circle, rgba(142,102,30,0.753968253968254) 0%, rgba(56,44,21,1) 100%);
+  background: rgb(142, 102, 30);
+  background: radial-gradient(
+    circle,
+    rgba(142, 102, 30, 0.753968253968254) 0%,
+    rgba(56, 44, 21, 1) 100%
+  );
 }
 
 h1 {
