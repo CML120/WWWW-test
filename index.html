@@ -16,17 +16,20 @@
   <div id="wrapper">
     <header>
       <h1
-        class="title is-size-1 has-text-info-dark has-text-centered is-family-sans-serif has-background-primary-light py-5">
-        Event Finder</h1>
+        class="title is-size-1 has-text-centered is-family-sans-serif py-2">
+        Hometown Sound</h1>
     </header>
+    <div class="subtitle has-text-centered has-text-white py-2">
+      <p id="info">Hometown Sound is a premier web application to find where your favorite artist is performing next.</p>
+    </div>
     <div class="column has-text-centered my-5 is-size-5">
-      <h3 class="my-5">Search your city here</h3>
+      <h3 class="my-5" id="city-search">Search an artist here</h3>
       <div id="searchCity" class="my-5">
         <label for="cities"></label>
-        <input type="text" id="cities" class="ui-autocomplete-input input is-default" placeholder="i.e. Saint Paul"
+        <input type="text" id="cities" class="ui-autocomplete-input input is-default" placeholder="i.e. Metallica"
           autocomplete="off">
         <button id="searchBtn" class="button is-default is-link">Search</button>
-        <div class="is-flex is-justify-content-space-around mt-5">
+        <div class="is-flex is-justify-content-space-around mt-5" id="search-results">
           <!-- Searched cities will be appended here via JS-->
           <ul id="searchedCities" class="list-items"></ul>
         </div>
