@@ -53,12 +53,12 @@ function getEventByKeyword(userinput) {
   var apiKey = "aSqzhWcc1ZxQnMoClqxGxcTRL8GrgFyA";
   // Variable to house Ticketmaster API URL
   // var eventsUrl ="https://app.ticketmaster.com/discovery/v2/events?city=" +city +"&apikey=" +apiKey;
-  // var eventsUrl ="https://app.ticketmaster.com/discovery/v2/events?apikey=" +apiKey +"&keyword=" + userinput;
   var eventsUrl =
-    "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=" +
-    userinput +
-    "&apikey=" +
-    apiKey;
+    "https://app.ticketmaster.com/discovery/v2/events?apikey=" +
+    apiKey +
+    "&keyword=" +
+    userinput;
+  // var eventsUrl ="https://app.ticketmaster.com/discovery/v2/events.json?classificationName=" + userinput +"&apikey=" +apiKey;
   fetch(eventsUrl)
     .then(function (response) {
       return response.json();
