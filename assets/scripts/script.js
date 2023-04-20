@@ -85,45 +85,17 @@ function getEventByKeyword(userinput) {
       }
       // Function to append on page title, image, date, time, location and link to buy tickets for the event. Class "is-size" is adding size font; class "has-text-warning" is adding font color with Bulma
       function appendEvents(num, index) {
-        $("#attraction-" + num).append(
-          '<h2 class= "is-size-4 has-text-warning " >' +
-            data._embedded.events[index].name +
-            "</h2>"
-        );
-        $("#attraction-" + num).append(
-          "<img src='" +
-            data._embedded.events[index].images[0].url +
-            "' ></img>"
-        );
-        $("#attraction-" + num).append(
-          '<p class= "is-size-5 ">' +
-            "When? " +
-            dayjs(data._embedded.events[index].dates.start.dateTime).format(
-              "MMM-DD-YYYY"
-            ) +
-            "</p>"
-        );
-        $("#attraction-" + num).append(
-          '<p class= "is-size-5">' +
-            "What time? " +
-            dayjs(data._embedded.events[index].dates.start.dateTime).format(
-              "h:mm A"
-            ) +
-            "</p>"
-        );
-        $("#attraction-" + num).append(
-          '<p class= "is-size-5">' +
-            "Where? " +
-            data._embedded.events[index]._embedded.venues[0].name +
-            "</p>"
-        );
-        $("#attraction-" + num).append(
-          '<a target="_blank" href="' +
-            data._embedded.events[index].url +
-            '" class= "has-text-weight-bold has-text-danger-dark is-size-4">Purchase Tickets Here</a>'
-        );
+        var cardDisplay = `
 
-        apiSpotifyURL(num);
+          <h2 class= "is-size-4 has-text-warning " >` + data._embedded.events[index].name + `</h2>
+          <img src=" `+ data._embedded.events[index].images[0].url + `"></img>
+          <p class= "is-size-5 "> Date: ` + dayjs(data._embedded.events[index].dates.start.dateTime).format("MMM-DD-YYYY") + `</p>
+          <p class= "is-size-5"> Time: ` + dayjs(data._embedded.events[index].dates.start.dateTime).format("h:mm A") + `</p>
+          <p class= "is-size-5">` + "Location: " + data._embedded.events[index]._embedded.venues[0].name + ` </p>
+          <a target="_blank" href="` + data._embedded.events[index].url + `"class= "has-text-weight-bold has-text-danger-dark is-size-4">Purchase Tickets Here</a>
+          `;
+          $("#attraction-" + num).append(cardDisplay)
+          apiSpotifyURL(num);
       }
     });
 }
@@ -192,7 +164,7 @@ function apiSpotifyURL(num) {
 
           console.log("Test 2:" + artistName)
           console.log(hrefLink.spotify);
-          
+
           //appends link 
           $("#attraction-" + num).append(
             '<p><a target="_blank" href="' +
