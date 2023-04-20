@@ -2,6 +2,7 @@ $(document).ready(function () {
   // Hiding div with attractions card because there are no events to show
   $(attractions).hide();
   getSearchedKeyword();
+  autoKeywords();
 
   // Function to when the search button is clicked
   $("#searchBtn").click(function (e) {
@@ -30,7 +31,16 @@ $(document).ready(function () {
 
 // Function to show suggested city names on searched box when at least three characteres are entered
 function autoKeywords() {
-  var availableKeyword = ["saint paul", "minneapolis"];
+  var availableKeyword = [
+    "Jazz",
+    "Pop Music",
+    "Rock",
+    "Country",
+    "Reggae",
+    "Hip Hop",
+    "Pop Rock",
+    "Blues",
+  ];
   $("#cities").autocomplete({
     source: availableKeyword,
     minLength: 3,
@@ -43,12 +53,12 @@ function getEventByKeyword(userinput) {
   var apiKey = "aSqzhWcc1ZxQnMoClqxGxcTRL8GrgFyA";
   // Variable to house Ticketmaster API URL
   // var eventsUrl ="https://app.ticketmaster.com/discovery/v2/events?city=" +city +"&apikey=" +apiKey;
+  // var eventsUrl ="https://app.ticketmaster.com/discovery/v2/events?apikey=" +apiKey +"&keyword=" + userinput;
   var eventsUrl =
-    "https://app.ticketmaster.com/discovery/v2/events?apikey=" +
-    apiKey +
-    "&keyword=" +
-    userinput;
-
+    "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=" +
+    userinput +
+    "&apikey=" +
+    apiKey;
   fetch(eventsUrl)
     .then(function (response) {
       return response.json();
@@ -62,9 +72,7 @@ function getEventByKeyword(userinput) {
           // Saving name of the city in local storage according to name available in API (corrected name)
           localStorage.setItem(
             "CityCorrectName",
-            JSON.stringify(
-              data._embedded.events[0]._embedded.venues[0].city.name
-            )
+            JSON.stringify(data._embedded.events[0]._embedded.venues[0].name)
           );
           saveSearchedKeyword();
         }
@@ -134,11 +142,11 @@ function saveSearchedKeyword() {
   }
 }
 
-// Function to append searched cities to searchedCities div
+// Function to append searched cities to searchedgenres div
 function getSearchedKeyword() {
   var cities = JSON.parse(localStorage.getItem("cities")) || [];
   for (let i = 0; i < cities.length; i++) {
-    $("#searchedCities").append("<li>" + cities[i] + "</li>");
+    $("#searchedGenres").append("<li>" + cities[i] + "</li>");
   }
 }
 
@@ -147,5 +155,5 @@ function deleteAppends() {
   for (let num = 0; num < 3; num++) {
     $("#attraction-" + num).empty();
   }
-  $("#searchedCities").empty();
+  $("#searchedGenres").empty();
 }
