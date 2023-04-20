@@ -1,23 +1,20 @@
-// Wrapping main functions to only work after document is ready
 $(document).ready(function () {
   // Hiding div with attractions card because there are no events to show
   $(attractions).hide();
-  autoCities();
-  getSearchedCities();
+  getSearchedKeyword();
+
   // Function to when the search button is clicked
   $("#searchBtn").click(function (e) {
     e.preventDefault();
     deleteAppends();
-    // If no value is entered on search box: hides attractions div and shows previous searched cities if any
+
     if ($("#cities").val() == "") {
       $(attractions).hide();
-      getSearchedCities();
-    }
-    // If a value is entered on search box: the value is house in a variable that is passed into function that gets events info for city searched and shows previous searched cities if any
-    else {
-      var city = $("#cities").val();
-      getEventByCity(city);
-      getSearchedCities();
+      getSearchedKeyword();
+    } else {
+      var userinput = $("#cities").val();
+      getEventByKeyword(userinput);
+      getSearchedKeyword();
     }
   });
   // Function to when any li (previous searched cities) is clicked
@@ -25,31 +22,33 @@ $(document).ready(function () {
     e.preventDefault();
     deleteAppends();
     // Saving clicked city into variable to be passed into function that gets events info for city searched and shows previous searched cities if any
-    var city = $(this).text();
-    getEventByCity(city);
-    getSearchedCities();
+    var userinput = $(this).text();
+    getEventByKeyword(userinput);
+    getSearchedKeyword();
   });
 });
 
 // Function to show suggested city names on searched box when at least three characteres are entered
-function autoCities() {
-  var availableCities = ["saint paul", "minneapolis"];
+function autoKeywords() {
+  var availableKeyword = ["saint paul", "minneapolis"];
   $("#cities").autocomplete({
-    source: availableCities,
+    source: availableKeyword,
     minLength: 3,
   });
 }
 
 // Function to call Ticketmaster API with city as query parameter
-function getEventByCity(city) {
+function getEventByKeyword(keyword) {
   // Variable to house Ticketmaster API key
   var apiKey = "aSqzhWcc1ZxQnMoClqxGxcTRL8GrgFyA";
   // Variable to house Ticketmaster API URL
+  // var eventsUrl ="https://app.ticketmaster.com/discovery/v2/events?city=" +city +"&apikey=" +apiKey;
   var eventsUrl =
-    "https://app.ticketmaster.com/discovery/v2/events?city=" +
-    city +
-    "&apikey=" +
-    apiKey;
+    "https://app.ticketmaster.com/discovery/v2/events?apikey=" +
+    apiKey +
+    "&keyword=" +
+    keyword;
+
   fetch(eventsUrl)
     .then(function (response) {
       return response.json();
@@ -67,7 +66,7 @@ function getEventByCity(city) {
               data._embedded.events[0]._embedded.venues[0].city.name
             )
           );
-          saveSearchedCities();
+          saveSearchedKeyword();
         }
       }
       // If the city entered on search box does not have ticketmaster events available, attractions div will keep hidden
@@ -118,7 +117,7 @@ function getEventByCity(city) {
 }
 
 // Function to save in local storage searched cities
-function saveSearchedCities() {
+function saveSearchedKeyword() {
   // Get correct city name from local storage to add to new array in variable cities
   var CityCorrectName = JSON.parse(localStorage.getItem("CityCorrectName"));
   if (CityCorrectName) {
@@ -136,7 +135,7 @@ function saveSearchedCities() {
 }
 
 // Function to append searched cities to searchedCities div
-function getSearchedCities() {
+function getSearchedKeyword() {
   var cities = JSON.parse(localStorage.getItem("cities")) || [];
   for (let i = 0; i < cities.length; i++) {
     $("#searchedCities").append("<li>" + cities[i] + "</li>");
@@ -149,5 +148,4 @@ function deleteAppends() {
     $("#attraction-" + num).empty();
   }
   $("#searchedCities").empty();
-  $("#advice").empty();
 }
