@@ -70,7 +70,7 @@ body {
 #search-results,
 #info {
   font-weight: bold;
-  text-fill-color: transparent;
+  color: transparent;
   -webkit-text-fill-color: transparent;
   background: linear-gradient(to right, gold, white);
   -webkit-background-clip: text;
