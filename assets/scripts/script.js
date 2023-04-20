@@ -3,17 +3,16 @@ $(document).ready(function () {
   $(attractions).hide();
   getSearchedKeyword();
   autoKeywords();
-
   // Function to when the search button is clicked
   $("#searchBtn").click(function (e) {
     e.preventDefault();
     deleteAppends();
 
-    if ($("#cities").val() == "") {
+    if ($("#user-input").val() == "") {
       $(attractions).hide();
       getSearchedKeyword();
     } else {
-      var userinput = $("#cities").val();
+      var userinput = $("#user-input").val();
       artistName = userinput;
       getEventByKeyword(userinput);
       getSearchedKeyword();
@@ -43,7 +42,7 @@ function autoKeywords() {
     "Pop Rock",
     "Blues",
   ];
-  $("#cities").autocomplete({
+  $("#user-input").autocomplete({
     source: availableKeyword,
     minLength: 3,
   });
@@ -86,7 +85,6 @@ function getEventByKeyword(userinput) {
       // Function to append on page title, image, date, time, location and link to buy tickets for the event. Class "is-size" is adding size font; class "has-text-warning" is adding font color with Bulma
       function appendEvents(num, index) {
         var cardDisplay = `
-
           <h2 class= "is-size-4 has-text-warning " >` + data._embedded.events[index].name + `</h2>
           <img src=" `+ data._embedded.events[index].images[0].url + `"></img>
           <p class= "is-size-5 "> Date: ` + dayjs(data._embedded.events[index].dates.start.dateTime).format("MMM-DD-YYYY") + `</p>
@@ -138,7 +136,6 @@ function deleteAppends() {
 function apiSpotifyURL(num) {
   var client_id = 'b8a40684aaf24623a0845d2de7d55422';
   var client_secret = '059928fa94f647a3ad310fbb22d30473';
-
   //Gets the token for Spotify Oauth
   fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
@@ -161,11 +158,7 @@ function apiSpotifyURL(num) {
         .then(function (data) {
           //gets artist URL link
           var hrefLink = data.artists.items[0].external_urls;
-
-          console.log("Test 2:" + artistName)
-          console.log(hrefLink.spotify);
-
-          //appends link 
+          //appends spotify link 
           $("#attraction-" + num).append(
             '<p><a target="_blank" href="' +
             hrefLink.spotify +
