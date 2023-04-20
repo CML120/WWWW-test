@@ -73,7 +73,7 @@ function getEventByKeyword(userinput) {
           // Saving name of the city in local storage according to name available in API (corrected name)
           localStorage.setItem(
             "CityCorrectName",
-            JSON.stringify(data._embedded.events[0]._embedded.venues[0].name)
+            JSON.stringify(artistName)
           );
           saveSearchedKeyword();
         }
@@ -86,7 +86,7 @@ function getEventByKeyword(userinput) {
       function appendEvents(num, index) {
         var cardDisplay = `
           <h2 class= "is-size-4 has-text-warning " >` + data._embedded.events[index].name + `</h2>
-          <img src=" `+ data._embedded.events[index].images[0].url + `"></img>
+          <img src="`+ data._embedded.events[index].images[0].url + `"></img>
           <p class= "is-size-5 "> Date: ` + dayjs(data._embedded.events[index].dates.start.dateTime).format("MMM-DD-YYYY") + `</p>
           <p class= "is-size-5"> Time: ` + dayjs(data._embedded.events[index].dates.start.dateTime).format("h:mm A") + `</p>
           <p class= "is-size-5">` + "Location: " + data._embedded.events[index]._embedded.venues[0].name + ` </p>
