@@ -38,7 +38,7 @@ function autoKeywords() {
 }
 
 // Function to call Ticketmaster API with city as query parameter
-function getEventByKeyword(keyword) {
+function getEventByKeyword(userinput) {
   // Variable to house Ticketmaster API key
   var apiKey = "aSqzhWcc1ZxQnMoClqxGxcTRL8GrgFyA";
   // Variable to house Ticketmaster API URL
@@ -47,7 +47,7 @@ function getEventByKeyword(keyword) {
     "https://app.ticketmaster.com/discovery/v2/events?apikey=" +
     apiKey +
     "&keyword=" +
-    keyword;
+    userinput;
 
   fetch(eventsUrl)
     .then(function (response) {
